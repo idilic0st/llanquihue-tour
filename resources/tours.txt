@@ -1,0 +1,5 @@
+Ruta Gastronomica Frutillar;Gastronomico;45000
+Navegacion Rio Maullin;Aventura;35000
+Circuito Historico Llanquihue;Cultural;20000
+Tour Cerveza Artesanal;Gastronomico;30000
+Trekking Volcan Osorno;Aventura;60000
