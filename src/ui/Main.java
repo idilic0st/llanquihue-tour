@@ -4,39 +4,61 @@ import data.GestorDatos;
 import model.Tour;
 import java.util.ArrayList;
 
+/**
+ * Clase principal de la aplicacion Llanquihue Tour.
+ * Ejecuta el recorrido automatizado y el filtrado por consola.
+ */
 public class Main {
+
+    /**
+     * Metodo principal que inicia la ejecucion del programa.
+     *
+     * @param args Argumentos de la linea de comandos.
+     */
     public static void main(String[] args) {
+        GestorDatos gestor = new GestorDatos();
+
+        // Ruta de la carpeta del proyecto
         String ruta = "resources/tours.txt";
 
-        ArrayList<Tour> todosLosTours = GestorDatos.leerToursDesdeArchivo(ruta);
+        System.out.println("Iniciando carga de datos...\n");
+        ArrayList<Tour> tours = gestor.cargarTours(ruta);
 
-        System.out.println("=== RECORRIDO: LISTA COMPLETA DE TOURS ===");
-        if (todosLosTours.isEmpty()) {
-            System.out.println("No se cargaron tours. Verifica la ubicación del archivo.");
-        } else {
-            for (Tour t : todosLosTours) {
+        // Recorrido
+        System.out.println("=== LISTADO GENERAL DE TOURS Y GUÍAS ===");
+        for (Tour t : tours) {
+            System.out.println(t);
+        }
+
+        // Busqueda automatizada
+        String guiaBuscado = "Juan Perez";
+        System.out.println("\n=== TOURS ASIGNADOS AL GUÍA: " + guiaBuscado + " ===");
+
+        boolean encontrado = false;
+        for (Tour t : tours) {
+            if (t.getGuiaAsignado().getNombre().equalsIgnoreCase(guiaBuscado)) {
                 System.out.println(t);
+                encontrado = true;
             }
         }
-        System.out.println();
 
-        // FILTRADO 1 por tipo
-        String tipoFiltro = "Gastronomico";
-        System.out.println("=== FILTRADO: Tours de tipo '" + tipoFiltro + "' ===");
-        for (Tour t : todosLosTours) {
-            if (t.getTipo().equalsIgnoreCase(tipoFiltro)) {
-                System.out.println(t);
-            }
+        if (!encontrado) {
+            System.out.println("No se encontraron tours para el guía especificado.");
         }
-        System.out.println();
-
-        // FILTRADO 2: Filtrar por precio
+        // FILTRADO NUMÉRICO (Por Precio)
         int precioLimite = 30000;
-        System.out.println("=== FILTRADO: Tours con precio mayor a $" + precioLimite + " ===");
-        for (Tour t : todosLosTours) {
+        System.out.println("\n=== FILTRADO: Tours con precio mayor a $" + precioLimite + " ===");
+        boolean hayToursCaros = false;
+
+        for (Tour t : tours) {
             if (t.getPrecio() > precioLimite) {
                 System.out.println(t);
+                hayToursCaros = true;
             }
+        }
+
+        if (!hayToursCaros) {
+            System.out.println("No se encontraron tours por sobre ese precio.");
         }
     }
 }

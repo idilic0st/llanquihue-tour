@@ -1,50 +1,45 @@
 package model;
 
+/**
+ * Representa un tour ofrecido por la agencia.
+ * Aplica composicion al incluir un objeto de tipo Guia.
+ */
 public class Tour {
-    // Atributos privados
     private String nombre;
     private String tipo;
     private int precio;
+    private Guia guiaAsignado; // El Tour ahora contiene un Guía
 
-    // Constructor
-    public Tour(String nombre, String tipo, int precio) {
+    /**
+     * Constructor de la clase Tour actualizado (Ahora pide 4 datos).
+     *
+     * @param nombre       Nombre del tour.
+     * @param tipo         Categoría del tour (Cultural, Gastronomico, etc.).
+     * @param precio       Valor del tour en pesos chilenos.
+     * @param guiaAsignado Objeto Guia asignado responsable del tour.
+     */
+    public Tour(String nombre, String tipo, int precio, Guia guiaAsignado) {
         this.nombre = nombre;
         this.tipo = tipo;
         this.precio = precio;
+        this.guiaAsignado = guiaAsignado;
     }
 
-    // Getters y Setters
-    public String getNombre() {
-        return nombre;
-    }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    public String getTipo() { return tipo; }
+    public void setTipo(String tipo) { this.tipo = tipo; }
 
-    public String getTipo() {
-        return tipo;
-    }
+    public int getPrecio() { return precio; }
+    public void setPrecio(int precio) { this.precio = precio; }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
+    // Getters y Setters para el Guía
+    public Guia getGuiaAsignado() { return guiaAsignado; }
+    public void setGuiaAsignado(Guia guiaAsignado) { this.guiaAsignado = guiaAsignado; }
 
-    public int getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(int precio) {
-        this.precio = precio;
-    }
-
-    // Metodo toString para representar el objeto como texto
     @Override
     public String toString() {
-        return "Tour{" +
-                "Nombre = '" + nombre + '\'' +
-                ", Tipo = '" + tipo + '\'' +
-                ", Precio = $" + precio +
-                '}';
+        return "Tour: " + nombre + " | Tipo: " + tipo + " | Precio: $" + precio + " | " + guiaAsignado.toString();
     }
 }
