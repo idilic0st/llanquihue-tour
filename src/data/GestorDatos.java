@@ -1,7 +1,6 @@
 package data;
 
-import model.Guia;
-import model.Tour;
+import model.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,13 +13,13 @@ import java.util.ArrayList;
 public class GestorDatos {
 
     /**
-     * Lee un archivo de texto plano y transforma cada línea en un objeto Tour con su respectivo Guia.
+     * Lee archivo TXT.
      *
      * @param rutaArchivo La ruta donde se encuentra el archivo .txt.
-     * @return Un ArrayList dinámico que contiene todos los tours cargados exitosamente.
+     * @return Un ArrayList dinámico que contiene los servicios turísticos (subclases) cargados.
      */
-    public ArrayList<Tour> cargarTours(String rutaArchivo) {
-        ArrayList<Tour> listaTours = new ArrayList<>();
+    public ArrayList<ServicioTuristico> cargarTours(String rutaArchivo) {
+        ArrayList<ServicioTuristico> listaTours = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
             String linea;
@@ -36,7 +35,7 @@ public class GestorDatos {
                     }
 
                     String nombreTour = datos[0];
-                    String tipo = datos[1];
+                    String tipo = datos[1]; // Evaluamos esta columna del TXT
                     int precio = Integer.parseInt(datos[2]); // Lanza NumberFormatException si falla
 
                     String rutGuia = datos[3];
@@ -49,9 +48,23 @@ public class GestorDatos {
                     }
 
                     Guia nuevoGuia = new Guia(rutGuia, nombreGuia, especialidad);
-                    Tour nuevoTour = new Tour(nombreTour, tipo, precio, nuevoGuia);
 
-                    listaTours.add(nuevoTour);
+                    // duración estimada
+                    int duracionEstimada = 3;
+
+                    ServicioTuristico nuevoServicio;
+
+                    // INTERPRETACIÓN DEL TXT: Según el tipo en el archivo, instanciamos la subclase específica
+                    if (tipo.equalsIgnoreCase("Gastronomico") || tipo.equalsIgnoreCase("Gastronomico") || tipo.equalsIgnoreCase("Gastronomica")) {
+                        nuevoServicio = new RutaGastronomica(nombreTour, duracionEstimada, precio, nuevoGuia, 4); // 4 paradas por defecto
+                    } else if (tipo.equalsIgnoreCase("Lacustre")) {
+                        nuevoServicio = new PaseoLacustre(nombreTour, duracionEstimada, precio, nuevoGuia, "Catamarán");
+                    } else {
+                        // Cualquier otro tipo (ej: Cultural o Historico) se crea como Excursión Cultural
+                        nuevoServicio = new ExcursionCultural(nombreTour, duracionEstimada, precio, nuevoGuia, "Casco Histórico");
+                    }
+
+                    listaTours.add(nuevoServicio);
 
                 } catch (NumberFormatException e) {
                     System.out.println("Error: El precio no es un número válido en la línea: " + linea);
