@@ -55,7 +55,7 @@ public class GestorDatos {
                     ServicioTuristico nuevoServicio;
 
                     // INTERPRETACIÓN DEL TXT: Según el tipo en el archivo, instanciamos la subclase específica
-                    if (tipo.equalsIgnoreCase("Gastronomico") || tipo.equalsIgnoreCase("Gastronomico") || tipo.equalsIgnoreCase("Gastronomica")) {
+                    if (tipo.equalsIgnoreCase("Gastrononico") || tipo.equalsIgnoreCase("Gastronomico") || tipo.equalsIgnoreCase("Gastronomica")) {
                         nuevoServicio = new RutaGastronomica(nombreTour, duracionEstimada, precio, nuevoGuia, 4); // 4 paradas por defecto
                     } else if (tipo.equalsIgnoreCase("Lacustre")) {
                         nuevoServicio = new PaseoLacustre(nombreTour, duracionEstimada, precio, nuevoGuia, "Catamarán");
