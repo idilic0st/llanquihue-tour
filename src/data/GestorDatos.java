@@ -35,7 +35,7 @@ public class GestorDatos {
                     }
 
                     String nombreTour = datos[0];
-                    String tipo = datos[1]; // Evaluamos esta columna del TXT
+                    String tipo = datos[1]; // Evaluamos la columna del TXT
                     int precio = Integer.parseInt(datos[2]); // Lanza NumberFormatException si falla
 
                     String rutGuia = datos[3];

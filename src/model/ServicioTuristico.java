@@ -7,7 +7,7 @@ package model;
 public class ServicioTuristico {
     protected String nombre;
     protected int duracionHoras;
-    protected int precio; // Mantenemos el precio de tu código original para tus filtros
+    protected int precio; // Mantenemos el precio del código original para los filtros
     protected Guia guiaAsignado; // Composición con tu clase Guia
 
     public ServicioTuristico(String nombre, int duracionHoras, int precio, Guia guiaAsignado) {
