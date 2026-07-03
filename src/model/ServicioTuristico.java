@@ -7,8 +7,8 @@ package model;
 public class ServicioTuristico {
     protected String nombre;
     protected int duracionHoras;
-    protected int precio; // Mantenemos el precio del código original para los filtros
-    protected Guia guiaAsignado; // Composición con tu clase Guia
+    protected int precio;
+    protected Guia guiaAsignado;
 
     public ServicioTuristico(String nombre, int duracionHoras, int precio, Guia guiaAsignado) {
         this.nombre = nombre;
@@ -28,6 +28,14 @@ public class ServicioTuristico {
 
     public Guia getGuiaAsignado() { return guiaAsignado; }
     public void setGuiaAsignado(Guia guiaAsignado) { this.guiaAsignado = guiaAsignado; }
+
+    /**
+     * Muestra la información del servicio turístico.
+     * Este método es sobrescrito por las subclases para aplicar polimorfismo.
+     */
+    public void mostrarInformacion() {
+        System.out.println("Servicio: " + nombre + " | Duración: " + duracionHoras + " hrs | Precio: $" + precio + " | " + guiaAsignado.toString());
+    }
 
     @Override
     public String toString() {
