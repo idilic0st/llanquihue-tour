@@ -1,33 +1,47 @@
-# Llanquihue Tour App
+# LlanquihueTourApp - Sistema de Gestión de Servicios Turísticos
 
-## Descripción
-Proyecto de la Semana 5 para la asignatura **Desarrollo Orientado a Objetos I**. La aplicación lee los datos de los tours desde un archivo de texto, los transforma en objetos dentro de un `ArrayList` y permite recorrerlos y filtrarlos en la consola.
+Este proyecto es una aplicación de consola en Java diseñada para digitalizar, estructurar y automatizar las operaciones de la agencia de turismo **Llanquihue Tour**. El sistema permite procesar datos externos, manejar excepciones en tiempo de ejecución y clasificar dinámicamente los servicios ofrecidos empleando los pilares de la Programación Orientada a Objetos (POO).
 
-## MEJORAS DE ESTA VERSIÓN
+## Objetivo de la Semana 6
+El objetivo principal de esta etapa consiste en modelar y representar jerárquicamente los distintos servicios turísticos que ofrece la agencia mediante **Herencia Simple** y **Composición entre clases**. Con esto se logra centralizar los atributos comunes en una superclase y especializar el comportamiento en subclases específicas, integrando esta arquitectura con el motor de persistencia y lectura de archivos de texto plano (`.txt`) construido previamente.
 
-- Composición: Implementación de la clase Guia dentro de la clase Tour, reflejando una estructura de datos real.
-- Robustez (try-catch): Incorporación de bloques try-catch para validar la integridad de los datos leídos del archivo, evitando errores críticos en tiempo de ejecución.
-- Modularidad: Estructura organizada en paquetes funcionales según buenas prácticas de ingeniería de software.
-- Documentación Técnica: Código documentado íntegramente mediante Javadoc para facilitar su mantenimiento y comprensión.
+---
 
-## Estructura de Carpetas
-El proyecto está organizado de la siguiente manera:
+## Estructura del Proyecto y Clases Creadas
+El código fuente se organiza de manera lógica y modular dividiéndose en paquetes según su responsabilidad:
 
-```text
-LlanquihueTourApp/
-├── resources/
-│   └── tours.txt       # Base de datos con información de Tours y Guías
-└── src/
-    ├── data/           # Motor de datos (Lectura y validación de archivos)
-    │   └── GestorDatos.java
-    ├── model/          # Entidades (Clases Tour.java y Guia.java)
-    │   ├── Tour.java
-    │   └── Guia.java
-    └── ui/             # Interfaz (Clase principal de ejecución)
-        └── Main.java
+### 1. Paquete `model/` (Capa de Dominio y Jerarquía)
+* **`Guia.java`**: Representa al guía de turismo con sus atributos base (`rut`, `nombre`, `especialidad`). Es utilizado como componente dentro de los servicios.
+* **`ServicioTuristico.java` (Superclase)**: Contiene la información básica común compartida por todos los servicios de la agencia: `nombre`, `duracionHoras`, `precio` y un objeto `guiaAsignado` (aplicando el concepto de **Composición**).
+* **`RutaGastronomica.java` (Subclase)**: Extiende de `ServicioTuristico` y especializa la categoría incorporando el atributo específico `numeroDeParadas`.
+* **`PaseoLacustre.java` (Subclase)**: Extiende de `ServicioTuristico` y especializa la categoría incorporando el atributo específico `tipoEmbarcacion`.
+* **`ExcursionCultural.java` (Subclase)**: Extiende de `ServicioTuristico` y especializa la categoría incorporando el atributo específico `lugarHistorico`.
 
-## Instrucciones para Ejecutar
-1. Abre el proyecto en IntelliJ IDEA.
-2. Ve a la ruta src/ui/ y abre Main.java.
-3. Haz clic derecho en el codigo y selecciona Run 'Main.main()'.
+*Nota: Todas las subclases reutilizan el constructor del padre mediante la instrucción `super(...)` y sobrescriben el método `toString()` de forma personalizada para exponer su información completa.*
+
+### 2. Paquete `data/` (Capa de Persistencia)
+* **`GestorDatos.java`**: Encargado de la persistencia interna. Utiliza flujos de lectura (`BufferedReader` / `FileReader`) y deserializa el archivo plano línea por línea. Implementa condicionales lógicos para evaluar la columna de categoría e instanciar dinámicamente la subclase correspondiente en memoria, resguardando la estabilidad del flujo mediante capturas robustas de errores (`try-catch`).
+
+### 3. Paquete `ui/` (Capa de Interfaz de Usuario)
+* **`Main.java`**: Clase de arranque principal. Coordina la carga de datos mediante el gestor, despliega el listado polimórfico general, ejecuta filtros automáticos por coincidencia de texto (búsqueda de guías específicos) y realiza segmentaciones numéricas (filtrado por umbrales de precio).
+
+---
+
+## Requisitos del Sistema
+* **Java Development Kit (JDK)**: Versión 11 o superior.
+* **Entorno de Desarrollo (IDE)**: IntelliJ IDEA, Eclipse, NetBeans o VS Code.
+* **Persistencia**: Archivo plano estructurado con extensión `.txt`.
+
+---
+
+## Instrucciones para Ejecutar el Programa
+
+1. **Configurar el Archivo de Origen**:
+   Asegúrate de tener creado tu archivo de origen en la ruta relativa del proyecto:
+   `resources/tours.txt`
+   
+   Este archivo debe seguir la estructura delimitada por punto y coma (`;`), por ejemplo:
+   ```text
+   Kuchen Tour Frutillar;Gastronomico;25000;15443221-K;Ana María López;Gastronomía
+   Vuelta al Lago;Lacustre;45000;18765432-1;Carlos Plaza;Navegaciónin.main()'.
 4. Revisa los resultados en la consola de abajo.
