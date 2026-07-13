@@ -4,7 +4,7 @@ Sistema de gestión y administración para la agencia de turismo **Llanquihue To
 
 ---
 
-## 🏗️ Arquitectura y Diseño de Software
+##  Arquitectura y Diseño de Software
 
 El proyecto demuestra el uso avanzado de abstracciones en Java mediante la implementación de dos conceptos fundamentales de la POO:
 
@@ -24,7 +24,7 @@ Representa la identidad común y el "ADN" de los servicios que ofrece la agencia
 
 ---
 
-## 📂 Estructura del Proyecto
+##  Estructura del Proyecto
 
 El código está organizado bajo el patrón de diseño multicapa para separar la lógica de negocio de la interfaz de usuario:
 
