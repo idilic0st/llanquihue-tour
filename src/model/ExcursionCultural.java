@@ -9,15 +9,10 @@ public class ExcursionCultural extends ServicioTuristico {
     }
 
     public String getLugarHistorico() { return lugarHistorico; }
-    public void setLugarHistorico(String lugarHistorico) { this.lugarHistorico = lugarHistorico; }
 
     @Override
-    public void mostrarInformacion() {
-        System.out.println(super.toString() + " | Categoría: Excursión Cultural | Lugar: " + lugarHistorico);
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + " | Categoría: Excursión Cultural | Lugar: " + lugarHistorico;
+    public String mostrarResumen() {
+        String infoGuia = (guiaAsignado != null) ? guiaAsignado.toString() : "Sin Guía Asignado";
+        return "Excursión Cultural: " + getNombre() + " | Duración: " + getDuracionHoras() + "h | Precio: $" + getPrecio() + " | Lugar: " + lugarHistorico + " | " + infoGuia;
     }
 }

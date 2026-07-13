@@ -9,15 +9,10 @@ public class RutaGastronomica extends ServicioTuristico {
     }
 
     public int getNumeroDeParadas() { return numeroDeParadas; }
-    public void setNumeroDeParadas(int numeroDeParadas) { this.numeroDeParadas = numeroDeParadas; }
 
     @Override
-    public void mostrarInformacion() {
-        System.out.println(super.toString() + " | Categoría: Ruta Gastronómica | N° Paradas: " + numeroDeParadas);
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + " | Categoría: Ruta Gastronómica | N° Paradas: " + numeroDeParadas;
+    public String mostrarResumen() {
+        String infoGuia = (guiaAsignado != null) ? guiaAsignado.toString() : "Sin Guía Asignado";
+        return "Ruta Gastronómica: " + getNombre() + " | Duración: " + getDuracionHoras() + "h | Precio: $" + getPrecio() + " | Paradas: " + numeroDeParadas + " | " + infoGuia;
     }
 }

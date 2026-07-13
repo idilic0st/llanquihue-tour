@@ -9,15 +9,10 @@ public class PaseoLacustre extends ServicioTuristico {
     }
 
     public String getTipoEmbarcacion() { return tipoEmbarcacion; }
-    public void setTipoEmbarcacion(String tipoEmbarcacion) { this.tipoEmbarcacion = tipoEmbarcacion; }
 
     @Override
-    public void mostrarInformacion() {
-        System.out.println(super.toString() + " | Categoría: Paseo Lacustre | Embarcación: " + tipoEmbarcacion);
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + " | Categoría: Paseo Lacustre | Embarcación: " + tipoEmbarcacion;
+    public String mostrarResumen() {
+        String infoGuia = (guiaAsignado != null) ? guiaAsignado.toString() : "Sin Guía Asignado";
+        return "Paseo Lacustre: " + getNombre() + " | Duración: " + getDuracionHoras() + "h | Precio: $" + getPrecio() + " | Embarcación: " + tipoEmbarcacion + " | " + infoGuia;
     }
 }
