@@ -1,82 +1,57 @@
-# Llanquihue Tour - Panel de Administración Integrado
+# Sistema de Gestión Turística - Llanquihue Tour
 
-Sistema de gestión y administración para la agencia de turismo Llanquihue Tour. Este software ha sido desarrollado en Java (Swing) aplicando buenas prácticas de Programación Orientada a Objetos (POO), con un diseño enfocado en la modularidad, la reutilización de código y la consistencia de datos a través de interfaces y polimorfismo.
+Aplicación de escritorio desarrollada en **Java (Swing)** para la administración centralizada de guías, vehículos, colaboradores externos y servicios turísticos de la agencia *Llanquihue Tour*.
 
----
-
-## Arquitectura y Diseño de Software
-
-El proyecto demuestra el uso avanzado de abstracciones en Java mediante la implementación de dos conceptos fundamentales de la POO:
-
-### 1. La Interfaz (Registrable)
-Establece un contrato de comportamiento para cualquier entidad que requiera ser reportada por el sistema.
-* **Propósito:** Permite el tratamiento polimórfico en el motor de reportes.
-* **Clases que la implementan:** Guia, Vehiculo, ColaboradorExterno y la clase abstracta ServicioTuristico.
-* **Método requerido:** mostrarResumen().
-
-### 2. La Clase Abstracta (ServicioTuristico)
-Representa la identidad común y el "ADN" de los servicios que ofrece la agencia (relación de herencia "es un...").
-* **Propósito:** Agrupar atributos comunes (nombre, duracion, precio, Guia) y evitar la duplicación de código. No puede ser instanciada directamente.
-* **Especializaciones (Subclases):** 
-  * RutaGastronomica (añade cantidadParadas)
-  * PaseoLacustre (añade tipoEmbarcacion)
-  * ExcursionCultural (añade lugarHistorico)
+El proyecto está diseñado bajo el paradigma de **Programación Orientada a Objetos (POO)** y organizado en una arquitectura modular de 5 capas.
 
 ---
 
-## Estructura del Proyecto
+##  Estructura del Proyecto
 
-El código está organizado bajo el patrón de diseño multicapa para separar la lógica de negocio de la interfaz de usuario:
+El código está dividido en 5 paquetes independientes para mantener una clara separación de responsabilidades:
+
+* `model`: Define la interfaz `Registrable` y las clases de dominio (`Guia`, `Vehiculo`, `Colaborador`, `RutaGastronomica`, `PaseoLacustre`).
+* `controller`: Contiene `AgenciaGestor`, encargada de administrar la lista centralizada de entidades en memoria.
+* `data`: Contiene `ManejadorArchivos`, la clase utilitaria para la lectura y escritura del archivo `.txt`.
+* `exception`: Define `RutInvalidoException` para el control de errores de formato en datos de entrada.
+* `ui`: Contiene `VentanaApp`, la interfaz gráfica desarrollada con componentes Java Swing.
+
+---
+
+## ⚙️ Soluciones Técnicas Implementadas
+
+### 1. Persistencia mediante Algoritmo de Doble Pasada
+Para mantener relaciones de composición entre objetos (asociar un servicio a un guía real) sin usar una base de datos relacional, `ManejadorArchivos` realiza dos lecturas al archivo `datos_agencia.txt`:
+1. **Primera Pasada:** Lee e instancia las entidades independientes (`GUIA`, `VEHICULO`, `COLABORADOR`).
+2. **Segunda Pasada:** Lee los servicios (`RUTA_GASTRO`, `PASEO_LACUSTRE`), busca en memoria al guía correspondiente mediante su RUT y reconstruye la relación.
+
+### 2. Validación de RUT con Expresión Regular
+La clase `Guia` valida el formato del RUT mediante la expresión regular `^\d{7,8}-[0-9Kk]$`. Si el formato es incorrecto, el constructor lanza la excepción verificada `RutInvalidoException`, permitiendo que la interfaz gráfica capture el error y muestre una alerta sin interrumpir la ejecución.
+
+### 3. Interfaz Gráfica Dinámica (Swing)
+* **Filtrado dinámico:** El selector de guías asignables filtra la lista general en memoria utilizando el operador `instanceof Guia`.
+* **Formulario adaptativo:** Los campos del formulario ajustan sus etiquetas en tiempo real según el servicio seleccionado en el menú desplegable.
+* **Monitor en tiempo real:** Un área de texto (`JTextArea`) muestra el contenido actualizado del archivo de datos en cada operación de guardado.
+
+---
+
+##  Formato del Archivo de Datos (`datos_agencia.txt`)
+
+Los datos se almacenan en texto plano separados por punto y coma (`;`):
 
 ```text
-src/
-├── model/                  # Capa de Modelo (Entidades de Negocio)
-│   ├── Registrable.java          # Interfaz base
-│   ├── ServicioTuristico.java    # Clase abstracta principal
-│   ├── RutaGastronomica.java     # Subclase de Servicio
-│   ├── PaseoLacustre.java        # Subclase de Servicio
-│   ├── ExcursionCultural.java    # Subclase de Servicio
-│   ├── Guia.java                 # Entidad independiente
-│   ├── Vehiculo.java             # Entidad independiente
-│   └── ColaboradorExterno.java   # Socio o proveedor externo
-│
-├── data/                   # Capa de Datos y Control
-│   └── GestorEntidades.java      # Manejo de colecciones y reportes polimórficos
-│
-└── ui/                     # Capa de Presentación (Interfaz Gráfica)
-    └── VentanaApp.java           # GUI interactiva construida en Swing
-```
+GUIA;15224311-K;Ana Maria Lopez;Gastronomica
+VEHICULO;AB123CD;Mercedes Sprinter;19
+COLABORADOR;76123456-1;Catering Sur;Alimentacion
+RUTA_GASTRO;Kuchen Tour Frutillar;3;22000;15224311-K;4
 
----
+##  Compilación y Ejecución
+Clonar o descargar el proyecto.
 
-## Características Principales
+Abrir en NetBeans, Eclipse o IntelliJ IDEA configurando la carpeta src como raíz de fuentes.
 
-* **Interfaz de Usuario Dinámica:** Panel interactivo dividido en 4 pestañas (JTabbedPane) que permite registrar en tiempo real cada una de las entidades del modelo de negocios:
-  1. **Guías:** Registro de personal interno con su respectiva especialidad.
-  2. **Vehículos:** Control de flota terrestre con validación de capacidad de pasajeros.
-  3. **Servicios:** Creación dinámica de rutas, paseos y excursiones con asignación directa de guías registrados.
-  4. **Socios Externos:** Registro y control de tarifas de convenios con terceros (ej. transporte fluvial, catering).
-* **Validación Robusta y Control de Excepciones:** Los campos críticos como tarifas, precios, duración y capacidades cuentan con bloques try-catch para interceptar errores de formato (NumberFormatException) y asegurar que los valores ingresados sean lógicos.
-* **Consola de Reportes Polimórficos:** Un motor centralizado recorre una sola lista genérica de tipo Registrable, invocando el método de manera dinámica y generando un reporte clasificado por categorías en tiempo real.
-* **Persistencia en Memoria:** El sistema se inicializa con datos de prueba realistas basados en la geografía y oferta de la cuenca del Lago Llanquihue (Frutillar, Río Maullín, etc.).
+Ejecutar la clase principal:
 
----
-
-## Requisitos del Sistema
-
-* **Java Development Kit (JDK):** Versión 8 o superior.
-* **Entorno de Desarrollo (IDE):** NetBeans, Eclipse, IntelliJ IDEA o VS Code con soporte para Java.
-
----
-
-## Ejecución del Proyecto
-
-1. Clone el repositorio o descargue los archivos fuente.
-2. Abra el proyecto en su IDE de preferencia.
-3. Asegúrese de que la estructura de carpetas coincida con la declaración de paquetes (model, data, ui).
-4. Compile y ejecute el archivo principal:
-   ```bash
-   javac ui/VentanaApp.java
-   java ui/VentanaApp
-   ```
-*(Nota: Si utiliza un IDE, simplemente localice la clase VentanaApp.java, haga clic derecho y seleccione Run).*
+Plaintext
+ui.VentanaApp
+(Nota: Si el archivo datos_agencia.txt no existe al iniciar, el sistema lo creará automáticamente con registros de prueba).
