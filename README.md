@@ -59,47 +59,49 @@ src/
 └── ui/                     # Capa de Presentacion (Interfaz Grafica)
     └── VentanaApp.java           # GUI interactiva construida en Swing
 
-Características Principales
-Interfaz de Usuario Dinámica y Reactiva: Panel interactivo dividido en pestañas (JTabbedPane) para el registro en tiempo real de cada entidad:
 
-Guías: Registro de personal interno con validación estricta de RUT y especialidad.
 
-Vehículos: Control de flota terrestre con capacidad de pasajeros.
+---
 
-Servicios: Creación dinámica de rutas y paseos, con filtrado automático mediante instanceof para listar solo guías registrados en el selector.
+## Características Principales
 
-Colaboradores: Registro de convenios con proveedores externos.
+* **Interfaz de Usuario Dinámica y Reactiva:** Panel interactivo dividido en pestañas (`JTabbedPane`) para el registro en tiempo real de cada entidad:
+  * **Guías:** Registro de personal interno con validación estricta de RUT y especialidad.
+  * **Vehículos:** Control de flota terrestre con capacidad de pasajeros.
+  * **Servicios:** Creación dinámica de rutas y paseos, con filtrado automático mediante `instanceof` para listar solo guías registrados en el selector.
+  * **Colaboradores:** Registro de convenios con proveedores externos.
+* **Consola Monitora en Tiempo Real:** Panel inferior (`JTextArea`) que refresca y muestra automáticamente el contenido físico del archivo de datos tras cada operación de guardado.
+* **Auto-Bootstrap de Datos de Prueba:** Al ejecutar por primera vez, si el sistema no detecta el archivo `datos_agencia.txt`, autogenera un conjunto de datos iniciales ambientados en la cuenca del Lago Llanquihue (Frutillar, Puerto Varas, etc.).
 
-Consola Monitora en Tiempo Real: Panel inferior (JTextArea) que refresca y muestra automáticamente el contenido físico del archivo de datos tras cada operación de guardado.
+---
 
-Portabilidad y Estándar ASCII Universal: Todo el código fuente y sus cadenas internas están estandarizadas bajo caracteres ASCII puros. Esto previene errores de compilación (unmappable character for encoding) en cualquier sistema operativo o IDE.
+## Formato del Archivo de Persistencia (`datos_agencia.txt`)
 
-Auto-Bootstrap de Datos de Prueba: Al ejecutar por primera vez, si el sistema no detecta el archivo datos_agencia.txt, autogenera un conjunto de datos iniciales ambientados en la cuenca del Lago Llanquihue (Frutillar, Puerto Varas, etc.).
+Los datos se almacenan en texto plano utilizando el punto y coma (`;`) como delimitador de campos:
 
-Formato del Archivo de Persistencia (datos_agencia.txt)
-Los datos se almacenan en texto plano utilizando el punto y coma (;) como delimitador de campos:
-
-Plaintext
+```text
 GUIA;15224311-K;Ana Maria Lopez;Gastronomica
 VEHICULO;AB123CD;Mercedes Sprinter;19
 COLABORADOR;76123456-1;Catering Sur;Alimentacion
 RUTA_GASTRO;Kuchen Tour Frutillar;3;22000;15224311-K;4
 PASEO_LACUSTRE;Navegacion Llanquihue;2;35000;15224311-K;Catamaran
-Requisitos del Sistema
-Java Development Kit (JDK): Versión 8 o superior.
 
-Entorno de Desarrollo (IDE): NetBeans, Eclipse, IntelliJ IDEA o VS Code con soporte para Java.
+---
 
-Ejecución del Proyecto
-Clone el repositorio o extraiga los archivos fuente.
+## Requisitos del Sistema
 
-Abra el proyecto en su IDE de preferencia.
+* **Java Development Kit (JDK):** Versión 8 o superior.
+* **Entorno de Desarrollo (IDE):** NetBeans, Eclipse, IntelliJ IDEA o VS Code con soporte para Java.
 
-Asegúrese de que la carpeta src esté configurada como raíz del código fuente (Source Root).
+---
 
-Compile y ejecute desde la clase principal:
+## Ejecución del Proyecto
 
+1. Clone el repositorio o extraiga los archivos fuente.
+2. Abra el proyecto en su IDE de preferencia.
+3. Asegúrese de que la carpeta `src` esté configurada como raíz del código fuente (*Source Root*).
+4. Compile y ejecute desde la clase principal:
+
+```bash
 javac ui/VentanaApp.java
 java ui/VentanaApp
-
-(Nota: En entornos IDE, simplemente busque la clase VentanaApp.java dentro del paquete ui, haga clic derecho y seleccione Run File).
