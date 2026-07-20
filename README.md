@@ -1,54 +1,82 @@
-# LlanquihueTourApp - Sistema de Gestión de Servicios Turísticos
+# Llanquihue Tour - Panel de Administración Integrado
 
-Este proyecto es una aplicación de consola en Java diseñada para digitalizar, estructurar y automatizar las operaciones de la agencia de turismo **Llanquihue Tour**. El sistema permite procesar datos estructurados, manejar colecciones en memoria y clasificar dinámicamente los servicios ofrecidos empleando los pilares de la Programación Orientada a Objetos (POO).
-
-## Objetivo de la Semana 7
-El objetivo principal de esta etapa consiste en implementar principios de **Polimorfismo Dinámico** y la manipulación de **Colecciones Genéricas** dentro del sistema. Se busca almacenar los diferentes tipos de servicios turísticos dentro de una estructura lineal de tipo `List`, recorriendo la colección mediante un bucle `for-each` para invocar comportamientos especializados desde referencias de la superclase. Adicionalmente, se mantienen y adaptan los filtros de búsqueda lógica y segmentación numérica para operar sobre la nueva estructura genérica.
+Sistema de gestión y administración para la agencia de turismo Llanquihue Tour. Este software ha sido desarrollado en Java (Swing) aplicando buenas prácticas de Programación Orientada a Objetos (POO), con un diseño enfocado en la modularidad, la reutilización de código y la consistencia de datos a través de interfaces y polimorfismo.
 
 ---
 
-## Estructura del Proyecto y Clases Creadas
-El código fuente se organiza de manera lógica y modular dividiéndose en paquetes según su responsabilidad:
+## Arquitectura y Diseño de Software
 
-### 1. Paquete `model/` (Capa de Dominio y Jerarquía)
-* **`Guia.java`**: Representa al guía de turismo con sus atributos base (`rut`, `nombre`, `especialidad`). Es utilizado como componente dentro de los servicios mediante composición.
-* **`ServicioTuristico.java` (Superclase)**: Contiene la información básica común compartida por todos los servicios: `nombre`, `duracionHoras`, `precio` y un objeto `guiaAsignado`. Incorpora el método polimórfico base `mostrarInformacion()`.
-* **`RutaGastronomica.java` (Subclase)**: Extiende de `ServicioTuristico`, añade el atributo específico `numeroDeParadas` y sobrescribe el método `mostrarInformacion()` para exponer el detalle completo de su categoría.
-* **`PaseoLacustre.java` (Subclase)**: Extiende de `ServicioTuristico`, añade el atributo específico `tipoEmbarcacion` y sobrescribe el método `mostrarInformacion()` para exponer el detalle completo de su categoría.
-* **`ExcursionCultural.java` (Subclase)**: Extiende de `ServicioTuristico`, añade el atributo específico `lugarHistorico` y sobrescribe el método `mostrarInformacion()` para exponer el detalle completo de su categoría.
+El proyecto demuestra el uso avanzado de abstracciones en Java mediante la implementación de dos conceptos fundamentales de la POO:
 
-*Nota: Todas las subclases reutilizan el constructor del padre mediante la instrucción `super(...)` y redefinen el comportamiento de visualización mediante la anotación `@Override`.*
+### 1. La Interfaz (Registrable)
+Establece un contrato de comportamiento para cualquier entidad que requiera ser reportada por el sistema.
+* **Propósito:** Permite el tratamiento polimórfico en el motor de reportes.
+* **Clases que la implementan:** Guia, Vehiculo, ColaboradorExterno y la clase abstracta ServicioTuristico.
+* **Método requerido:** mostrarResumen().
 
-### 2. Paquete `data/` (Capa de Persistencia y Datos Internos)
-* **`GestorServicios.java`**: Encargado de centralizar el almacenamiento de los datos utilizando la colección genérica `List<ServicioTuristico>`. Instancia y añade de forma automatizada un mínimo de 5 objetos de prueba combinando equilibradamente las diferentes subclases de la jerarquía para simular la persistencia de la agencia.
+### 2. La Clase Abstracta (ServicioTuristico)
+Representa la identidad común y el "ADN" de los servicios que ofrece la agencia (relación de herencia "es un...").
+* **Propósito:** Agrupar atributos comunes (nombre, duracion, precio, Guia) y evitar la duplicación de código. No puede ser instanciada directamente.
+* **Especializaciones (Subclases):** 
+  * RutaGastronomica (añade cantidadParadas)
+  * PaseoLacustre (añade tipoEmbarcacion)
+  * ExcursionCultural (añade lugarHistorico)
 
-### 3. Paquete `ui/` (Capa de Interfaz de Usuario)
-* **`Main.java`**: Clase de arranque principal. Recupera la colección polimórfica desde el gestor de servicios y ejecuta consecutivamente el listado polimórfico general, la búsqueda automatizada por coincidencia de texto (guías específicos) y la segmentación numérica (filtrado por umbrales de precio).
+---
+
+## Estructura del Proyecto
+
+El código está organizado bajo el patrón de diseño multicapa para separar la lógica de negocio de la interfaz de usuario:
+
+```text
+src/
+├── model/                  # Capa de Modelo (Entidades de Negocio)
+│   ├── Registrable.java          # Interfaz base
+│   ├── ServicioTuristico.java    # Clase abstracta principal
+│   ├── RutaGastronomica.java     # Subclase de Servicio
+│   ├── PaseoLacustre.java        # Subclase de Servicio
+│   ├── ExcursionCultural.java    # Subclase de Servicio
+│   ├── Guia.java                 # Entidad independiente
+│   ├── Vehiculo.java             # Entidad independiente
+│   └── ColaboradorExterno.java   # Socio o proveedor externo
+│
+├── data/                   # Capa de Datos y Control
+│   └── GestorEntidades.java      # Manejo de colecciones y reportes polimórficos
+│
+└── ui/                     # Capa de Presentación (Interfaz Gráfica)
+    └── VentanaApp.java           # GUI interactiva construida en Swing
+```
+
+---
+
+## Características Principales
+
+* **Interfaz de Usuario Dinámica:** Panel interactivo dividido en 4 pestañas (JTabbedPane) que permite registrar en tiempo real cada una de las entidades del modelo de negocios:
+  1. **Guías:** Registro de personal interno con su respectiva especialidad.
+  2. **Vehículos:** Control de flota terrestre con validación de capacidad de pasajeros.
+  3. **Servicios:** Creación dinámica de rutas, paseos y excursiones con asignación directa de guías registrados.
+  4. **Socios Externos:** Registro y control de tarifas de convenios con terceros (ej. transporte fluvial, catering).
+* **Validación Robusta y Control de Excepciones:** Los campos críticos como tarifas, precios, duración y capacidades cuentan con bloques try-catch para interceptar errores de formato (NumberFormatException) y asegurar que los valores ingresados sean lógicos.
+* **Consola de Reportes Polimórficos:** Un motor centralizado recorre una sola lista genérica de tipo Registrable, invocando el método de manera dinámica y generando un reporte clasificado por categorías en tiempo real.
+* **Persistencia en Memoria:** El sistema se inicializa con datos de prueba realistas basados en la geografía y oferta de la cuenca del Lago Llanquihue (Frutillar, Río Maullín, etc.).
 
 ---
 
 ## Requisitos del Sistema
-* **Java Development Kit (JDK)**: Versión 11 o superior.
-* **Entorno de Desarrollo (IDE)**: IntelliJ IDEA, Eclipse, NetBeans o VS Code.
-* **Colecciones**: Uso exclusivo de estructuras genéricas del entorno de ejecución de Java (`java.util.List` / `java.util.ArrayList`).
+
+* **Java Development Kit (JDK):** Versión 8 o superior.
+* **Entorno de Desarrollo (IDE):** NetBeans, Eclipse, IntelliJ IDEA o VS Code con soporte para Java.
 
 ---
 
-## Instrucciones para Ejecutar el Programa
+## Ejecución del Proyecto
 
-1. **Compilar el Proyecto**:
-   A través de tu terminal de comandos desde la raíz del directorio `src/` o mediante las herramientas de compilación de tu IDE:
+1. Clone el repositorio o descargue los archivos fuente.
+2. Abra el proyecto en su IDE de preferencia.
+3. Asegúrese de que la estructura de carpetas coincida con la declaración de paquetes (model, data, ui).
+4. Compile y ejecute el archivo principal:
    ```bash
-   javac ui/Main.java data/GestorServicios.java model/*.java
-
-   Ejecutar la Clase Main:
-1. Lanza la aplicación ejecutando la interfaz desde la consola del sistema:
-
-Bash
-java ui.Main
-
-2. Resultados en Consola:
-Al ejecutarse correctamente, el sistema mostrará de forma secuencial:
-El listado general polimórfico invocando dinámicamente el método mostrarInformacion() para cada uno de los 5 servicios de prueba.
-La lista filtrada de servicios asignados exclusivamente al guía especificado (ej: Juan Pérez).
-La filtración automatizada de aquellos servicios cuyos costos superan el límite establecido de $30.000.
+   javac ui/VentanaApp.java
+   java ui/VentanaApp
+   ```
+*(Nota: Si utiliza un IDE, simplemente localice la clase VentanaApp.java, haga clic derecho y seleccione Run).*
