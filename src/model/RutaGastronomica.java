@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Servicio turístico enfocado en experiencias culinarias.
+ */
 public class RutaGastronomica extends ServicioTuristico {
     private int numeroDeParadas;
 

@@ -1,5 +1,11 @@
 package model;
 
+/**
+ * Clase base abstracta para las distintas modalidades de servicios turísticos.
+ *
+ * @author David Medina
+ * @version 1.0
+ */
 public abstract class ServicioTuristico implements Registrable {
     protected String nombre;
     protected int duracionHoras;
@@ -17,8 +23,6 @@ public abstract class ServicioTuristico implements Registrable {
     public int getDuracionHoras() { return duracionHoras; }
     public int getPrecio() { return precio; }
     public Guia getGuiaAsignado() { return guiaAsignado; }
-
-
 
     @Override
     public abstract String mostrarResumen();

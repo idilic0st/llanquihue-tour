@@ -1,4 +1,0 @@
-Ruta Gastronomica Frutillar;Gastronomico;45000;11222333-4;Juan Perez;Sommelier
-Navegacion Rio Maullin;Aventura;35000;15666777-8;Ana Silva;Buzologo
-Circuito Historico Llanquihue;Cultural;20000;19888999-0;Pedro Rojas;Historiador
-Tour Cerveza Artesanal;Gastronomico;30000;11222333-4;Juan Perez;Sommelier

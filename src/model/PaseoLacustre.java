@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Servicio turístico enfocado en rutas navegables.
+ */
 public class PaseoLacustre extends ServicioTuristico {
     private String tipoEmbarcacion;
 

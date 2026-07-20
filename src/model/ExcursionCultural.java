@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Servicio turístico enfocado en hitos históricos y culturales.
+ */
 public class ExcursionCultural extends ServicioTuristico {
     private String lugarHistorico;
 

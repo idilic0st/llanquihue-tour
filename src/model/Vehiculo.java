@@ -1,5 +1,11 @@
 package model;
 
+/**
+ * Modela un vehículo perteneciente a la flota logística de la agencia.
+ *
+ * @author David Medina
+ * @version 1.0
+ */
 public class Vehiculo implements Registrable {
     private String patente;
     private String modelo;

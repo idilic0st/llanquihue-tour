@@ -1,0 +1,12 @@
+GUIA;15224311-K;Ana María López;Gastronomía
+GUIA;18765432-1;Carlos Plaza;Navegación
+VEHICULO;HGDF-44;Mercedes Benz Sprinter;17
+COLABORADOR;Transportes del Lago S.A.;Traslados Fluviales;75000
+GUIA;20189122-1;David Medina;Gastronomía
+VEHICULO;HHFF-44;Toyota Yaris;4
+COLABORADOR;Transportes Llanquihue;Traslado ciudad a pueblo;80000
+RUTA_GASTRO;Kuchen Tour Frutillar;3;22000;15224311-K;4
+PASEO_LACUSTRE;Navegación Río Maullín;2;35000;18765432-1;Lancha a Motor
+PASEO_LACUSTRE;Vuelta al Lago Llanquihue;4;45000;18765432-1;Catamarán
+EXCURSION_CULT;Teatro del Lago e Historia;2;15000;15224311-K;Frutillar BajoGUIA
+GUIA;20189122-1;David Medina;Gastronomía
